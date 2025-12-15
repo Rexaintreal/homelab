@@ -144,7 +144,32 @@
           <span class="currency-note">1 hour = 10 <img src="assets/lancurrency.png" alt="ethernet" class="currency-icon" /> ethernet cables</span>
         </p>
 
-        <div class="shop-grid">
+        <div class="shop-controls">
+          <label for="sort-select">Sort by:</label>
+          <select id="sort-select" onchange="sortRewards()">
+            <option value="default">Default</option>
+            <option value="asc">Hours: Low to High</option>
+            <option value="desc">Hours: High to Low</option>
+          </select>
+        </div>
+
+        <div class="shop-grid" id="shop-grid">
+          <div class="shop-card">
+            <div class="shop-card-image">
+              <img src="assets/serverack.png" alt="Server Rack" />
+            </div>
+            <div class="shop-card-content">
+              <h3 class="shop-card-title">Used Server Rack Grant</h3>
+              <p class="shop-card-description">
+                No Limits!
+              </p>
+              <div class="shop-card-footer">
+                <div class="shop-card-price grant-price">$5 Grant</div>
+                <div class="shop-card-hours">1 hour</div>
+              </div>
+            </div>
+          </div>
+
           <div class="shop-card">
             <div class="shop-card-image">
               <img src="assets/Cat6.png" alt="CAT6 Cable" />
@@ -399,6 +424,106 @@
               </div>
             </div>
           </div>
+          <div class="shop-card">
+          <div class="shop-card-image">
+            <img src="assets/TP-Link2.5GB.png" alt="TP-Link TX201 2.5Gb Network Card" />
+          </div>
+          <div class="shop-card-content">
+            <h3 class="shop-card-title">TP-Link 2.5Gb PCIe Network Card (TX201)</h3>
+            <p class="shop-card-description">Upgrade your server to 2.5Gb networking</p>
+            <div class="shop-card-footer">
+              <div class="shop-card-price">
+                <img src="assets/lancurrency.png" alt="ethernet" class="price-icon" />
+                <span>60</span>
+              </div>
+              <div class="shop-card-hours">6 hours</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="shop-card">
+          <div class="shop-card-image">
+            <img src="assets/TP-Link10GB.png" alt="TP-Link TX401 10Gb Network Card" />
+          </div>
+          <div class="shop-card-content">
+            <h3 class="shop-card-title">TP-Link 10Gb PCIe Network Card (TX401)</h3>
+            <p class="shop-card-description">High-speed 10Gb networking for serious homelabs</p>
+            <div class="shop-card-footer">
+              <div class="shop-card-price">
+                <img src="assets/lancurrency.png" alt="ethernet" class="price-icon" />
+                <span>200</span>
+              </div>
+              <div class="shop-card-hours">20 hours</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="shop-card">
+          <div class="shop-card-image">
+            <img src="assets/AmazonBasicsUPS.png" alt="Amazon Basics UPS 400VA" />
+          </div>
+          <div class="shop-card-content">
+            <h3 class="shop-card-title">Amazon Basics UPS 400VA / 255W</h3>
+            <p class="shop-card-description">Basic battery backup and surge protection</p>
+            <div class="shop-card-footer">
+              <div class="shop-card-price">
+                <img src="assets/lancurrency.png" alt="ethernet" class="price-icon" />
+                <span>120</span>
+              </div>
+              <div class="shop-card-hours">12 hours</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="shop-card">
+          <div class="shop-card-image">
+            <img src="assets/APCBackUPS.png" alt="APC Back-UPS Pro 1500VA" />
+          </div>
+          <div class="shop-card-content">
+            <h3 class="shop-card-title">APC Back-UPS Pro 1500VA</h3>
+            <p class="shop-card-description">Reliable UPS for servers and NAS systems</p>
+            <div class="shop-card-footer">
+              <div class="shop-card-price">
+                <img src="assets/lancurrency.png" alt="ethernet" class="price-icon" />
+                <span>400</span>
+              </div>
+              <div class="shop-card-hours">40 hours</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="shop-card">
+          <div class="shop-card-image">
+            <img src="assets/IronWolf4TB.png" alt="Seagate IronWolf Pro 4TB HDD" />
+          </div>
+          <div class="shop-card-content">
+            <h3 class="shop-card-title">Seagate IronWolf Pro 4TB HDD</h3>
+            <p class="shop-card-description">NAS-grade storage built for 24/7 workloads</p>
+            <div class="shop-card-footer">
+              <div class="shop-card-price">
+                <img src="assets/lancurrency.png" alt="ethernet" class="price-icon" />
+                <span>300</span>
+              </div>
+              <div class="shop-card-hours">30 hours</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="shop-card">
+          <div class="shop-card-image">
+            <img src="assets/IronWolf8TB.png" alt="Seagate IronWolf Pro 8TB HDD" />
+          </div>
+          <div class="shop-card-content">
+            <h3 class="shop-card-title">Seagate IronWolf Pro 8TB HDD</h3>
+            <p class="shop-card-description">High-capacity NAS storage for growing labs</p>
+            <div class="shop-card-footer">
+              <div class="shop-card-price">
+                <img src="assets/lancurrency.png" alt="ethernet" class="price-icon" />
+                <span>500</span>
+              </div>
+              <div class="shop-card-hours">50 hours</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -415,5 +540,41 @@
         <a href="https://hackclub.com" target="_blank">HackClub.</a>
       </p>
     </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const grid = document.getElementById('shop-grid');
+        const initialCards = Array.from(grid.children);
+
+        const getHours = (card) => {
+          const hoursText = card.querySelector('.shop-card-hours').innerText;
+          return parseInt(hoursText); 
+        };
+
+        window.sortRewards = function() {
+          const select = document.getElementById('sort-select');
+          const sortValue = select.value;
+          const currentCards = Array.from(grid.children);
+
+          if (sortValue === 'default') {
+            grid.innerHTML = '';
+            initialCards.forEach(card => grid.appendChild(card));
+            return;
+          }
+
+          currentCards.sort((a, b) => {
+            const aHours = getHours(a);
+            const bHours = getHours(b);
+
+            if (sortValue === 'asc') {
+              return aHours - bHours;
+            } else {
+              return bHours - aHours;
+            }
+          });
+          currentCards.forEach(card => grid.appendChild(card));
+        };
+      });
+    </script>
   </body>
 </html>
